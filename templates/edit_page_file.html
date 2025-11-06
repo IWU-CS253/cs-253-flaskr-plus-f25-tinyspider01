@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form action="{{ url_for('submit_edit') }}" method="post" class="add-entry">
+    <dl>
+      <dt>Title:
+      <dd><input type="text" size="30" name="title" value="{{ entries.title }}">
+      <dt>Category:</dt>
+      <dd><input type="text" size="30" name="category" value="{{ entries.category }}"></dd>
+      <dt>Text:
+      <dd><textarea id="textarea1" name="text" rows="5" cols="40">{{ entries.text }}</textarea>
+      <dd><input type="submit" value="Update Post">
+      <dd><input type="hidden" name="id" value="{{ entries.id }}">
+    </dl>
+  </form>
+{% endblock %}

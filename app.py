@@ -90,6 +90,23 @@ def delete_entry():
     flash('Entry was deleted successfully')
     return redirect(url_for('show_entries'))
 
+@app.route('/edit', methods=["GET"])
+def edit_page():
+    db = get_db()
+    cur = db.execute('SELECT * FROM entries where title = ?', [request.args.get('title',)])
+    entries = cur.fetchone()
+    return render_template('edit_page_file.html', entries=entries)
+
+@app.route('/submit', methods=["POST"])
+def submit_edit():
+    db = get_db()
+    db.execute('UPDATE entries SET title = ?, category = ?, text = ? WHERE id = ?',
+               [request.form['title'], request.form['category'], request.form['text'], request.form['id']])
+    db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_entries'))
+
+
 @app.route('/sort', methods=["GET"])
 def sort_entry():
     category = request.args.get('category')
