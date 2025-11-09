@@ -27,5 +27,23 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
 
+    def test_edit(self):
+        rv = self.app.get('/edit', data=dict(
+            title='<Hello>'
+        ), follow_redirects=True)
+        assert b'&lt;Hello&gt;' in rv.data
+
+    def test_sort(self):
+        rv = self.app.post('/sort', data=dict(
+            category = 'A category'
+        ), follow_redirects=True)
+        assert b'A category'
+
+    def test_delete(self):
+        rv = self.app.post('/delete', data=dict(
+            title='<Hello>'
+        ), follow_redirects=True)
+        assert b'&lt;Hello&gt;' not in rv.data
+
 if __name__ == '__main__':
     unittest.main()
